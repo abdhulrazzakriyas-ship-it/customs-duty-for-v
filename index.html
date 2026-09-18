@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sri Lanka Vehicle Customs Tax Calculator 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#0F172A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top App Bar -->
+        <header class="app-header">
+            <div class="header-top">
+                <div class="brand">
+                    <div class="brand-logo">🇱🇰</div>
+                    <div class="brand-text">
+                        <h1>SL Vehicle Tax 2026</h1>
+                        <span class="badge-version">2026 OFFICIAL TARIFF</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="btn-save-current" class="btn-icon btn-save" title="Save Calculation to App">💾 Save</button>
+                    <button id="btn-preset" class="btn-icon" title="Load Preset Vehicle">⚡ Presets</button>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-target="tab-calculator">🧮 Calculator</button>
+                <button class="nav-tab" data-target="tab-breakdown">📊 Breakdown</button>
+                <button class="nav-tab" data-target="tab-saved">📁 Saved App (<span id="saved-count">0</span>)</button>
+                <button class="nav-tab" data-target="tab-compare">⚖️ Compare</button>
+                <button class="nav-tab" data-target="tab-rates">📜 2026 Rates</button>
+            </nav>
+        </header>
+
+        <!-- Main Content Scroll Area -->
+        <main class="app-main">
+            <!-- TAB 1: CALCULATOR FORM -->
+            <section id="tab-calculator" class="tab-content active">
+                <div class="card-status" id="status-card">
+                    <div class="status-indicator verified" id="status-badge">🟢 VERIFIED TARIFF MATCH</div>
+                    <div class="status-info">
+                        <span id="status-text">Official 2026 Sri Lanka Customs Chapter 87 Schedule</span>
+                    </div>
+                </div>
+
+                <!-- Section 1: Vehicle Photo & Auction Sheet Attachments -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="icon">📷</span> Vehicle Media & Auction Sheet
+                    </div>
+                    
+                    <div class="upload-grid">
+                        <!-- Vehicle Photo Upload -->
+                        <div class="upload-box" id="box-vehicle-photo">
+                            <input type="file" id="file-vehicle-photo" accept="image/*" class="file-input">
+                            <div class="upload-placeholder" id="ph-vehicle-photo">
+                                <span class="upload-icon">🚗</span>
+                                <span class="upload-label">Upload Vehicle Photo</span>
+                                <span class="upload-hint">Tap to select image</span>
+                            </div>
+                            <div class="preview-container" id="prev-vehicle-photo" style="display:none;">
+                                <img id="img-vehicle-photo" src="" alt="Vehicle Photo">
+                                <button type="button" class="btn-remove-media" id="rm-vehicle-photo">✕</button>
+                            </div>
+                        </div>
+
+                        <!-- Auction Sheet Upload -->
+                        <div class="upload-box" id="box-auction-sheet">
+                            <input type="file" id="file-auction-sheet" accept="image/*,.pdf" class="file-input">
+                            <div class="upload-placeholder" id="ph-auction-sheet">
+                                <span class="upload-icon">📋</span>
+                                <span class="upload-label">Upload Auction Sheet</span>
+                                <span class="upload-hint">Japanese / Overseas sheet</span>
+                            </div>
+                            <div class="preview-container" id="prev-auction-sheet" style="display:none;">
+                                <img id="img-auction-sheet" src="" alt="Auction Sheet">
+                                <button type="button" class="btn-remove-media" id="rm-auction-sheet">✕</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Auction Details Grid -->
+                    <div class="form-grid" style="margin-top: 12px;">
+                        <div class="form-group half">
+                            <label for="inp-chassis">Chassis / Frame #</label>
+                            <input type="text" id="inp-chassis" class="input-control" value="ZVW51-1234567" placeholder="e.g. ZVW51-01234">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-auction-grade">Auction Grade</label>
+                            <select id="inp-auction-grade" class="input-control">
+                                <option value="4.5 / A" selected>4.5 / Grade A (Excellent)</option>
+                                <option value="5.0 / S">5.0 / Grade S (Like New)</option>
+                                <option value="4.0 / B">4.0 / Grade B (Good)</option>
+                                <option value="3.5 / C">3.5 / Grade C (Fair)</option>
+                                <option value="3.0 / D">3.0 / Grade D (Low)</option>
+                                <option value="R / RA">R / RA (Repaired / Modified)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-mileage">Mileage (km)</label>
+                            <input type="number" id="inp-mileage" class="input-control" value="38500" placeholder="e.g. 45000">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-interior-grade">Interior / Exterior</label>
+                            <select id="inp-interior-grade" class="input-control">
+                                <option value="A / A" selected>Interior A / Exterior A</option>
+                                <option value="B / B">Interior B / Exterior B</option>
+                                <option value="C / C">Interior C / Exterior C</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Vehicle Category & Specs -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="icon">🏎️</span> Technical Specifications
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="inp-category">Vehicle Category</label>
+                            <select id="inp-category" class="input-control">
+                                <option value="Passenger" selected>Passenger Vehicle</option>
+                                <option value="Commercial">Commercial Vehicle</option>
+                                <option value="Two-wheeler">Two-Wheeler</option>
+                                <option value="Three-wheeler">Three-Wheeler</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inp-subcategory">Sub-Category</label>
+                            <select id="inp-subcategory" class="input-control">
+                                <option value="SUV" selected>SUV / Crossover</option>
+                                <option value="Sedan">Sedan / Saloon</option>
+                                <option value="Hatchback">Hatchback / Kei Car</option>
+                                <option value="Van">Van / Minibus</option>
+                                <option value="Pickup">Double Cab / Pickup</option>
+                                <option value="Single Cab">Single Cab Lorry</option>
+                                <option value="Motorcycle">Motorcycle / Scooter</option>
+                                <option value="Three-wheeler">Auto-Rickshaw</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-make">Make</label>
+                            <input type="text" id="inp-make" class="input-control" value="Toyota">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-model">Model</label>
+                            <input type="text" id="inp-model" class="input-control" value="RAV4 Hybrid">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-mfg-date">Manufacture Date</label>
+                            <input type="date" id="inp-mfg-date" class="input-control" value="2023-05-15">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-import-date">Import Date</label>
+                            <input type="date" id="inp-import-date" class="input-control" value="2026-03-15">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-age">Calculated Age</label>
+                            <input type="text" id="inp-age" class="input-control readonly" value="2.8 Years" readonly>
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-condition">Condition</label>
+                            <select id="inp-condition" class="input-control">
+                                <option value="Used" selected>Used Vehicle</option>
+                                <option value="Brand New">Brand New</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inp-fuel">Fuel & Engine Type</label>
+                            <select id="inp-fuel" class="input-control">
+                                <option value="Hybrid (Petrol)" selected>Hybrid Petrol (ICE + Motor)</option>
+                                <option value="Petrol">Petrol Only (ICE)</option>
+                                <option value="Diesel">Diesel Only (ICE)</option>
+                                <option value="Hybrid (Diesel)">Hybrid Diesel</option>
+                                <option value="Plug-in Hybrid (PHEV)">Plug-in Hybrid (PHEV)</option>
+                                <option value="Electric (EV)">Electric Vehicle (EV)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group half" id="grp-cc">
+                            <label for="inp-cc">Engine CC</label>
+                            <input type="number" id="inp-cc" class="input-control" value="2487" placeholder="e.g. 1496">
+                        </div>
+
+                        <div class="form-group half" id="grp-kw">
+                            <label for="inp-kw">Motor Power (kW)</label>
+                            <input type="number" id="inp-kw" class="input-control" value="88" placeholder="e.g. 150">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Financial & Valuation -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="icon">💰</span> Financials & Valuation
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group half">
+                            <label for="inp-price">Purchase Price</label>
+                            <input type="number" id="inp-price" class="input-control" value="3850000">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-currency">Currency</label>
+                            <select id="inp-currency" class="input-control">
+                                <option value="JPY" selected>JPY (Japanese Yen)</option>
+                                <option value="USD">USD (US Dollar)</option>
+                                <option value="EUR">EUR (Euro)</option>
+                                <option value="GBP">GBP (British Pound)</option>
+                                <option value="AUD">AUD (Australian Dollar)</option>
+                                <option value="CAD">CAD (Canadian Dollar)</option>
+                                <option value="CNY">CNY (Chinese Yuan)</option>
+                                <option value="LKR">LKR (Sri Lankan Rupee)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-freight">Overseas Freight</label>
+                            <input type="number" id="inp-freight" class="input-control" value="220000">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-insurance">Marine Insurance</label>
+                            <input type="number" id="inp-insurance" class="input-control" value="35000">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-ex-mode">Exchange Mode</label>
+                            <select id="inp-ex-mode" class="input-control">
+                                <option value="Customs Official" selected>Customs Rate</option>
+                                <option value="Manual Override">Manual Override</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-ex-rate">Exchange Rate (LKR)</label>
+                            <input type="number" step="0.001" id="inp-ex-rate" class="input-control" value="2.085">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inp-val-mode">Customs Valuation Toggle</label>
+                            <select id="inp-val-mode" class="input-control">
+                                <option value="Use Calculated CIF Value" selected>Use Calculated CIF Value</option>
+                                <option value="Use Customs Assessed Value">Use Customs Assessed Value</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="grp-assessed-val" style="display: none;">
+                            <label for="inp-assessed-val">Customs Assessed Value (LKR)</label>
+                            <input type="number" id="inp-assessed-val" class="input-control" value="0" placeholder="Assessed LKR Value">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Commercial Sales & Profit Calculator -->
+                <div class="form-section highlight-profit">
+                    <div class="section-title">
+                        <span class="icon">📈</span> Profit & Commercial Sales Estimator
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group half">
+                            <label for="inp-repair-cost">Reconditioning / Repairs (LKR)</label>
+                            <input type="number" id="inp-repair-cost" class="input-control" value="150000" placeholder="Local repairs">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="inp-target-price">Target Selling Price (LKR)</label>
+                            <input type="number" id="inp-target-price" class="input-control" value="23500000" placeholder="Expected sale price">
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="out-profit">Est. Net Profit (LKR)</label>
+                            <input type="text" id="out-profit" class="input-control readonly profit-val" value="LKR 2,135,000" readonly>
+                        </div>
+
+                        <div class="form-group half">
+                            <label for="out-roi">Est. ROI %</label>
+                            <input type="text" id="out-roi" class="input-control readonly roi-val" value="10.1%" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button Group -->
+                <div class="action-btn-group">
+                    <button id="btn-save-vehicle-app" class="btn-action primary">💾 Save Vehicle into App</button>
+                    <button id="btn-export-pdf" class="btn-action secondary">🖨️ Export Quotation / Print</button>
+                    <button id="btn-share-quote" class="btn-action outline">📲 Share via WhatsApp</button>
+                </div>
+            </section>
+
+            <!-- TAB 2: DETAILED BREAKDOWN -->
+            <section id="tab-breakdown" class="tab-content">
+                <div class="card-summary-header">
+                    <h3>2026 Customs Tax Base Breakdown</h3>
+                    <p class="subtitle">Cascading Tax Engine (CIF → CID → PAL → CESS → Excise → SSCL → VAT)</p>
+                </div>
+
+                <div class="breakdown-list" id="breakdown-container">
+                    <!-- Dynamic rendering by JS -->
+                </div>
+            </section>
+
+            <!-- TAB 3: SAVED APP DIRECTORY -->
+            <section id="tab-saved" class="tab-content">
+                <div class="card-summary-header">
+                    <h3>📁 App Saved Vehicles Directory</h3>
+                    <p class="subtitle">Saved locally inside the app with photos & auction sheets</p>
+                </div>
+
+                <div class="saved-search-bar">
+                    <input type="text" id="inp-search-saved" class="input-control" placeholder="Search by make, model, chassis #...">
+                </div>
+
+                <div class="saved-directory-grid" id="saved-directory-container">
+                    <!-- Dynamic saved vehicle cards rendered by JS -->
+                </div>
+            </section>
+
+            <!-- TAB 4: COMPARE VEHICLES -->
+            <section id="tab-compare" class="tab-content">
+                <div class="card-summary-header">
+                    <h3>Multi-Vehicle Comparison</h3>
+                    <p class="subtitle">Side-by-side landed cost & tax burden analysis</p>
+                </div>
+
+                <div class="compare-scroll-wrapper">
+                    <div class="compare-cards" id="compare-container">
+                        <!-- Dynamic compare cards by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: 2026 TARIFF RATES & GAZETTES -->
+            <section id="tab-rates" class="tab-content">
+                <div class="card-summary-header">
+                    <h3>2026 Customs Legal References</h3>
+                    <p class="subtitle">Department of Revenue & Treasury Gazettes</p>
+                </div>
+
+                <div class="reference-list">
+                    <div class="ref-card">
+                        <div class="ref-title">Gazette Extraordinary No. 2501/88</div>
+                        <div class="ref-tag">ACTIVE 2026</div>
+                        <p>Extends the 50% Surcharge on Customs Import Duty (CID) for motor vehicles through December 31, 2026.</p>
+                    </div>
+
+                    <div class="ref-card">
+                        <div class="ref-title">Inland Revenue VAT Notice 2024/2026</div>
+                        <div class="ref-tag">18% VAT</div>
+                        <p>Applies standard 18% Value Added Tax on the cumulative base (CIF + Duties + SSCL).</p>
+                    </div>
+
+                    <div class="ref-card">
+                        <div class="ref-title">Social Security Contribution Levy (SSCL)</div>
+                        <div class="ref-tag">2.5% SSCL</div>
+                        <p>Applies 2.5% SSCL on the cumulative tax base (CIF + CID + PAL + CESS + Excise).</p>
+                    </div>
+
+                    <div class="ref-card">
+                        <div class="ref-title">Customs Valuation Committee Policy</div>
+                        <div class="ref-tag">VALUATION</div>
+                        <p>Sri Lanka Customs retains legal authority to revise assessed CIF values based on valuation databases.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Floating Summary Bar -->
+        <footer class="app-bottom-bar">
+            <div class="summary-left">
+                <span class="label">TOTAL LANDED COST</span>
+                <span class="val-primary" id="bar-landed-cost">LKR 21,215,000</span>
+                <span class="sub-info" id="bar-tax-burden">Govt Taxes: LKR 12.65M (149.7%)</span>
+            </div>
+            <button id="btn-show-detail" class="btn-primary">View Breakdown</button>
+        </footer>
+    </div>
+
+    <!-- Modal for Preset Selector -->
+    <div id="modal-presets" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Select Sample Vehicle Preset</h3>
+                <button id="btn-close-modal" class="btn-close">✕</button>
+            </div>
+            <div class="preset-list" id="preset-container">
+                <!-- Dynamic presets -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Image Preview Zoom -->
+    <div id="modal-image-zoom" class="modal-overlay">
+        <div class="modal-card zoom-card">
+            <div class="modal-header">
+                <h3 id="zoom-title">Image View</h3>
+                <button id="btn-close-zoom" class="btn-close">✕</button>
+            </div>
+            <div class="zoom-body">
+                <img id="img-zoom-target" src="" alt="Zoom Preview">
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
